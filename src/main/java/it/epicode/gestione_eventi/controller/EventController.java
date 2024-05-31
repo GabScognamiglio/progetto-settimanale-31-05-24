@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -65,6 +66,29 @@ public class EventController {
     public String deleteEvent(@PathVariable int id){
         return eventService.deleteEvent(id);
     }
+
+    //PARTECIPARE A UN EVENTO
+    @PatchMapping("/api/{eventId}/participate/{userId}")
+    @PreAuthorize("hasAuthority('USER')")
+    public String participateInEvent(@PathVariable int eventId, @PathVariable int userId) {
+        return eventService.participateInEvent(eventId, userId);
+    }
+
+    //VISUALIZZARE EVENTI A CUI PARTECIPA UN UTENTE
+    @GetMapping("/api/users/{userId}/events")
+    @PreAuthorize("hasAuthority('USER')")
+    public List<Event> getEventsByUserId(@PathVariable int userId) {
+        return eventService.getEventsByUserId(userId);
+    }
+
+    @PatchMapping("/api/{eventId}/cancel/{userId}")
+    @PreAuthorize("hasAuthority('USER')")
+    public String deletePartecipation(@PathVariable int eventId, @PathVariable int userId) {
+        return eventService.deleteEventFromUserEvents(eventId, userId);
+    }
+
+
+
 
 }
 

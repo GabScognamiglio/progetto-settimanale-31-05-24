@@ -23,6 +23,5 @@ public class Event {
     private int maxPartecipants;
     @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     @JsonIgnore
-
     private List<User> users;
 }

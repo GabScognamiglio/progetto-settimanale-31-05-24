@@ -17,7 +17,6 @@ public class EventDto {
     private LocalDate date;
     @NotBlank
     private String location;
-    @NotBlank
     @Min(value = 2, message = "Partecipants must be at least 2")
     private int maxPartecipants;
 }

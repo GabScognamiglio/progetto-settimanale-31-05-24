@@ -56,6 +56,7 @@ public class JwtFilter extends OncePerRequestFilter {
             throw new NotFoundException("User with id; " + userId + " not found.");
         }
 
+
         filterChain.doFilter(request, response);
     }
 

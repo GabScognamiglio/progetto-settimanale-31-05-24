@@ -24,7 +24,6 @@ public class Config {
 
         httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/api/**").permitAll());
         httpSecurity.authorizeHttpRequests(http -> http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll());
-        httpSecurity.authorizeHttpRequests(http -> http.anyRequest().authenticated());
 
         return httpSecurity.build();
     }
