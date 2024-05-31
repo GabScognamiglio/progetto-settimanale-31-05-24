@@ -18,16 +18,16 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    //Solo gli ADMIN possono manipolare gli utenti
+    //***Solo gli ADMIN possono manipolare gli utenti***
 
     @Autowired
     private UserService userService;
 
     @GetMapping("api/event-manager/users")
     @PreAuthorize("hasAuthority('ADMIN')") //solo chi è ADMIN è autorizzato
-    public Page<User> getUsers (@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "10") int size,
-                                @RequestParam(defaultValue = "id") String sortBy) {
+    public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               @RequestParam(defaultValue = "id") String sortBy) {
         return userService.getUsers(page, size, sortBy);
     }
 
@@ -37,8 +37,7 @@ public class UserController {
         Optional<User> userOptional = userService.getUserById(id);
         if (userOptional.isPresent()) {
             return userOptional.get();
-        }
-        else {
+        } else {
             throw new NotFoundException("User with id " + id + " not found");
         }
     }
@@ -49,7 +48,8 @@ public class UserController {
     public User updateUser(@PathVariable int id, @RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors().stream().
-                    map(objectError -> objectError.getDefaultMessage()).reduce("", (s, s2) -> s + s2));
+                    map(objectError -> objectError.getDefaultMessage()).reduce("", (s, s2) -> s + " - " + s2));
+            // " - " (riga sopra) serve per separare gli errori con un trattino tra uno e l'altro
         }
         return userService.updateUser(id, userDto);
     }
